@@ -1,5 +1,5 @@
 {
-    "name":"blueimp/jquery-file-upload-bundle",
+    "name":"mylen/jquery-file-upload-bundle",
     "type":"symfony-bundle",
     "description":"Multiple file uploads for Symfony2 with the BlueImp uploader. Also scales uploaded images",
     "keywords":["upload", "file", "multiple file upload", "uploader", "blueimp", "symfony", "symfony bundle", "bundle", "image transform", "symfony-2.0", "symfony-2.1"],
@@ -27,10 +27,10 @@
     },
     "autoload":{
         "psr-0":{
-            "BlueImp\\JQueryFileUploadBundle":"src"
+            "Mylen\\JQueryFileUploadBundle":"src"
         }
     },
-    "target-dir":"BlueImp\\JQueryFileUploadBundle",
+    "target-dir":"Mylen\\JQueryFileUploadBundle",
     "minimum-stability":"dev",
     "extra":{
         "branch-alias":{

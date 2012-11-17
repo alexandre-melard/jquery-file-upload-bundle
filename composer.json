@@ -23,7 +23,7 @@
 		"php": ">=5.3.2",
 		"symfony/framework-bundle": "2.*",
         "symfony/finder": "2.*",
-        "blueimp/jquery-file-upload":"1.0.*"
+        "blueimp/jquery-file-upload":"1.1.*"
 	},
 	"autoload": {
 		"psr-0": { "BlueImp\\JQueryFileUploadBundle": "src" }

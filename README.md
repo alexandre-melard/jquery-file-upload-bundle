@@ -1,3 +1,5 @@
+    This bundle is in work progress, do not use it now !!
+
 JQueryFileUploadBundle
 =========================
 

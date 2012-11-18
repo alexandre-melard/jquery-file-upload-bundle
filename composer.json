@@ -24,7 +24,8 @@
         "symfony/framework-bundle":"2.*",
         "symfony/finder":"2.*",
         "symfony/dependency-injection":"2.*",
-        "symfony/http-kernel":"2.*"
+        "symfony/http-kernel":"2.*",
+        "myblueimp/jquery-file-upload":"*"
     },
     "autoload":{
         "psr-0":{
@@ -38,7 +39,7 @@
             "package":{
                 "version":"master",
                 "type": "library",
-                "name":"blueimp/jquery-file-upload",
+                "name":"myblueimp/jquery-file-upload",
                 "description": "library to upload files and automaticaly resize images using jquery ajax api",
                 "keywords": ["jquery","upload","ajax","php","js","node.js"],
                 "homepage": "https://github.com/blueimp/jQuery-File-Upload",

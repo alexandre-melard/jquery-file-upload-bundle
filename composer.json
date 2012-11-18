@@ -3,7 +3,7 @@
     "type":"symfony-bundle",
     "description":"Multiple file uploads for Symfony2 with the BlueImp uploader. Also scales uploaded images",
     "keywords":["upload", "file", "multiple file upload", "uploader", "blueimp", "symfony", "symfony bundle", "bundle", "image transform", "symfony-2.0", "symfony-2.1"],
-    "homepage":"https://github.com/amelard/jquery-file-upload-bundle",
+    "homepage":"https://github.com/mylen/jquery-file-upload-bundle",
     "license":"MIT",
     "authors":[
         {
@@ -38,7 +38,28 @@
             "type":"package",
             "package":{
                 "version":"master",
+                "type": "library",
                 "name":"blueimp/jquery-file-upload",
+                "description": "library to upload files and automaticaly resize images using jquery ajax api",
+                "keywords": ["jquery","upload","ajax","php","js","node.js"],
+                "homepage": "https://github.com/blueimp/jQuery-File-Upload",
+                "license": "MIT",
+                "authors": [
+                    {
+                        "name": "Sebastian Tschan",
+                        "email": "mail@blueimp.net",
+                        "homepage": "https://blueimp.net/",
+                        "role": "Developer"
+                    }
+                ],
+                "require": {
+                    "php": ">=5.3.0"
+                },
+                "autoload": {
+                    "psr-0": {
+                        "UploadHandler": "server/php"
+                    }
+                },
                 "source":{
                     "url":"https://github.com/blueimp/jQuery-File-Upload.git",
                     "type":"git",
@@ -47,9 +68,6 @@
                 "dist":{
                     "url":"https://github.com/blueimp/jQuery-File-Upload/zipball/master",
                     "type":"zip"
-                },
-                "autoload":{
-                    "classmap": ["server/php/"]
                 }
             }
         }

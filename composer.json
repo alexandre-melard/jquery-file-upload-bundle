@@ -23,6 +23,8 @@
         "php":">=5.3.2",
         "symfony/framework-bundle":"2.*",
         "symfony/finder":"2.*",
+        "symfony/dependency-injection":"2.*",
+        "symfony/http-kernel":"2.*",
         "blueimp/jquery-file-upload":"1.1.*"
     },
     "autoload":{

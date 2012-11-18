@@ -32,5 +32,5 @@
             "Mylen\\JQueryFileUploadBundle":"src"
         }
     },
-    "target-dir":"Mylen\\JQueryFileUploadBundle"
+    "target-dir":"Mylen/JQueryFileUploadBundle"
 }

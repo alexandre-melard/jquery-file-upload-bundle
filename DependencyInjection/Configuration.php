@@ -1,6 +1,6 @@
 <?php
 
-namespace BlueImp\JQueryFileUploadBundle\DependencyInjection;
+namespace Mylen\JQueryFileUploadBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

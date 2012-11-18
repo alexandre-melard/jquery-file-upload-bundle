@@ -29,7 +29,7 @@
     },
     "autoload":{
         "psr-0":{
-            "Mylen\\JQueryFileUploadBundle":"src"
+            "Mylen\\JQueryFileUploadBundle":""
         }
     },
     "target-dir":"Mylen/JQueryFileUploadBundle"

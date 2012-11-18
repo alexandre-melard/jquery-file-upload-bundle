@@ -62,16 +62,16 @@ parameters:
       max_height: 1140
 
 services:
-    punk_ave.file_uploader:
+    mylen.file_uploader:
         class: Mylen\JQueryFileUploadBundle\Services\FileUploader
-        arguments: ['%file_uploader.file_base_path%','%file_uploader.web_base_path%','@request','@punk_ave.file_uploader_file_manager','%file_uploader.allowed_extensions%','%file_uploader.sizes%', '%file_uploader.originals%']
+        arguments: ['%file_uploader.file_base_path%','%file_uploader.web_base_path%','@request','@mylen.file_uploader_file_manager','%file_uploader.allowed_extensions%','%file_uploader.sizes%', '%file_uploader.originals%']
         scope: request
 
     # You usually won't need this sub-service directly,
     # however you can access it from a command, which is
     # convenient if you need to delete files relating to
     # something in a command context
-    punk_ave.file_uploader_file_manager:
+    mylen.file_uploader_file_manager:
         class: Mylen\JQueryFileUploadBundle\Services\FileManager
         # class: Mylen\JQueryFileUploadBundle\Services\FileManager
         arguments: ['%file_uploader.file_base_path%']

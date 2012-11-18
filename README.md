@@ -77,7 +77,7 @@ This code takes creat of creating an editId on the first pass through the form a
         $editId = sprintf('%09d', mt_rand(0, 1999999999));
         if ($posting->getId())
         {
-            $this->get('punk_ave.file_uploader')->syncFiles(
+            $this->get('mylen.file_uploader')->syncFiles(
                 array('from_folder' => 'attachments/' . $posting->getId(), 
                   'to_folder' => 'tmp/attachments/' . $editId,
                   'create_to_folder' => true));
@@ -86,13 +86,13 @@ This code takes creat of creating an editId on the first pass through the form a
 
 If the user encounters a validation error on their first attempt to complete the action (for instance, a form validation error), you'll want to present the same list of files again. So use the `getFiles` method to obtain a list of existing files. Make sure you pass that list to your template.
 
-    $existingFiles = $this->get('punk_ave.file_uploader')->getFiles(array('folder' => 'tmp/attachments/' . $editId));
+    $existingFiles = $this->get('mylen.file_uploader')->getFiles(array('folder' => 'tmp/attachments/' . $editId));
 
 (Note that the editId you generate should be highly random to prevent users from gaining control of each other's attachments.)
 
 When the user saves the form and you have just persisted the posting object, you should also sync files back from the temporary folder associated with the editId to the permanent one associated with the posting's id. Since we are done with the temporary folder we ask the file uploader service to remove that folder. We also ask the service to create the destination folder if necessary:
 
-    $fileUploader = $this->get('punk_ave.file_uploader');
+    $fileUploader = $this->get('mylen.file_uploader');
     $fileUploader->syncFiles(
         array('from_folder' => '/tmp/attachments/' . $editId,
         'to_folder' => '/attachments/' . $posting->getId(),
@@ -201,7 +201,7 @@ Here is the upload action:
             throw new Exception("Bad edit id");
         }
 
-        $this->get('punk_ave.file_uploader')->handleFileUpload(array('folder' => 'tmp/attachments/' . $editId));
+        $this->get('mylen.file_uploader')->handleFileUpload(array('folder' => 'tmp/attachments/' . $editId));
     }
 
 This single action actually implements a full REST API in which the BlueImp UploadHandler class takes care of uploading as well as deleting files.
@@ -215,7 +215,7 @@ Sooner or later the posting is deleted and you want all of the attachments to be
 
 You can do this as follows:
 
-    $this->get('punk_ave.file_uploader')->removeFiles(array('folder' => 'attachments/' . $posting->getId()));
+    $this->get('mylen.file_uploader')->removeFiles(array('folder' => 'attachments/' . $posting->getId()));
 
 You might want to do that in a manager class or a doctrine event listener, but that's not our department.
 

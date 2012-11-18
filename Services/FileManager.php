@@ -1,11 +1,11 @@
 <?php
 
-namespace BlueImp\JQueryFileUploadBundle\Services;
+namespace Mylen\JQueryFileUploadBundle\Services;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Filesystem\Filesystem;
-use BlueImp\JQueryFileUploadBundle\Services\IFileManager;
+use Mylen\JQueryFileUploadBundle\Services\IFileManager;
 
 class FileManager extends Filesystem implements IFileManager
 {

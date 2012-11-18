@@ -6,7 +6,7 @@
  * Time: 21:01
  * To change this template use File | Settings | File Templates.
  */
-namespace BlueImp\JQueryFileUploadBundle\Services;
+namespace Mylen\JQueryFileUploadBundle\Services;
 
 interface IFileManager
 {

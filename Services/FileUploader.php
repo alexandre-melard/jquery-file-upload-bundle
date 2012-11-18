@@ -1,10 +1,10 @@
 <?php
 
-namespace BlueImp\JQueryFileUploadBundle\Services;
+namespace Mylen\JQueryFileUploadBundle\Services;
 
-use BlueImp\JQueryFileUploadBundle\Services\IFileUploader;
-use BlueImp\JQueryFileUploadBundle\Services\IFileManager;
-use BlueImp\JQueryFileUploadBundle\Services\UploadHandler;
+use Mylen\JQueryFileUploadBundle\Services\IFileUploader;
+use Mylen\JQueryFileUploadBundle\Services\IFileManager;
+use Mylen\JQueryFileUploadBundle\Services\UploadHandler;
 
 class FileUploader implements IFileUploader
 {
@@ -73,7 +73,7 @@ class FileUploader implements IFileUploader
      * // object, then...
      * $this->get('punkave.file_upload').handleFileUpload(array('folder' => 'photos/' . $id))
      *
-     * DOES NOT RETURN. The response is generated in native PHP by BlueImp's UploadHandler class.
+     * DOES NOT RETURN. The response is generated in native PHP by Mylen's UploadHandler class.
      *
      * Note that if %file_uploader.file_path%/$folder already contains files, the user is
      * permitted to delete those in addition to uploading more. This is why we use a

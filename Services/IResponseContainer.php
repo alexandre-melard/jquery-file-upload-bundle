@@ -1,6 +1,6 @@
 <?php
 
-namespace BlueImp\JQueryFileUploadBundle\Services;
+namespace Mylen\JQueryFileUploadBundle\Services;
 
 interface IResponseContainer
 {

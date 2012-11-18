@@ -12,9 +12,10 @@ use UploadHandler as BaseUploadHandler;
 
 class UploadHandler extends BaseUploadHandler implements IResponseContainer
 {
-    protected $body;
-    protected $header;
-    protected $readfile;
+    protected $type = 200;
+    protected $body = '';
+    protected $header = array();
+    protected $readfile = null;
 
     protected function readfile($file_path) {
         $this->readfile = $file_path;
@@ -25,7 +26,15 @@ class UploadHandler extends BaseUploadHandler implements IResponseContainer
     }
 
     protected function header($str) {
-        $this->header .= $str;
+        if (strchr($str, ':')) {
+            $head = explode(':', $str);
+            array_push($this->header, array($head[0]=>$head[1]));
+        } else {
+            if (strstr($str, '403'))
+                $this->type = 403;
+            else if (strstr($str, '405'))
+                $this->type = 405;
+        }
     }
 
     public function getReadFile()
@@ -42,4 +51,10 @@ class UploadHandler extends BaseUploadHandler implements IResponseContainer
     {
         return $this->header;
     }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
 }

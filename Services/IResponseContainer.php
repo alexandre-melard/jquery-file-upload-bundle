@@ -9,4 +9,6 @@ interface IResponseContainer
     public function getBody();
 
     public function getHeader();
+
+    public function getType();
 }

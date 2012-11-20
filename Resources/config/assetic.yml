@@ -24,14 +24,14 @@ assetic:
             inputs:
                 - bundles/jqueryfileupload/css/jquery/jquery.fileupload-ui-noscript.css
             filters:
-                - cssrewrite
+                - abs_cssrewrite
                 - ?yui_css
 
         jqueryfileupload_ie6_css:
             inputs:
                 - bundles/jqueryfileupload/css/bootstrap/bootstrap-ie6.min.css
             filters:
-                - cssrewrite
+                - abs_cssrewrite
                 - ?yui_css
 
         jqueryfileupload_base_js:

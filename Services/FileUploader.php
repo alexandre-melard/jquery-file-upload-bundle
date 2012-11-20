@@ -73,7 +73,7 @@ class FileUploader implements IFileUploader
                 'image_versions' => $sizes,
                 'accept_file_types' => $allowedExtensionsRegex
             ),
-            true);
+            false);
         return $uploadHandler;
     }
 }

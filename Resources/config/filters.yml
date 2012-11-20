@@ -1,0 +1,6 @@
+services:
+  app.cssrewrite:
+    class: 'Mylen\JQueryFileUploadBundle\Filter\CssRewriteFilter'
+    tags:
+      - { name: 'assetic.filter', alias: 'abs_cssrewrite' }
+    

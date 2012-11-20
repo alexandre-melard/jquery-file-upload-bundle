@@ -1,54 +1,59 @@
 assetic:
     debug:          false
     use_controller: false
-    write_to:         %kernel.root_dir%/../web
+    read_from:      %kernel.root_dir%/../web
+    write_to:       %kernel.root_dir%/../web
     filters:
         yui_js:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.6.jar
         yui_css:
             jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.6.jar
     assets:
-        JQueryFileUploadBundle_base_css:
+        jqueryfileupload_base_css:
             inputs:
-                - @JQueryFileUploadBundle/Resources/public/css/bootstrap/bootstrap.min.css
-                - @JQueryFileUploadBundle/Resources/public/css/bootstrap/bootstrap-responsive.min.css
-                - @JQueryFileUploadBundle/Resources/public/css/bootstrap/bootstrap-image-gallery.min.css
-                - @JQueryFileUploadBundle/Resources/public/css/jquery/jquery.fileupload-ui.css
+                - bundles/jqueryfileupload/css/bootstrap/bootstrap.min.css
+                - bundles/jqueryfileupload/css/bootstrap/bootstrap-responsive.min.css
+                - bundles/jqueryfileupload/css/bootstrap/bootstrap-image-gallery.min.css
+                - bundles/jqueryfileupload/css/jquery/jquery.fileupload-ui.css
+            output: css/jqueryfileupload_base.min.css
             filters:
-                - yui_css
+                - abs_cssrewrite
+                - ?yui_css
 
-        JQueryFileUploadBundle_noscript_css:
+        jqueryfileupload_noscript_css:
             inputs:
-                - @JQueryFileUploadBundle/Resources/public/css/jquery/jquery.fileupload-ui-noscript.css
+                - bundles/jqueryfileupload/css/jquery/jquery.fileupload-ui-noscript.css
             filters:
-                - yui_css
+                - cssrewrite
+                - ?yui_css
 
-        JQueryFileUploadBundle_ie6_css:
+        jqueryfileupload_ie6_css:
             inputs:
-                - @JQueryFileUploadBundle/Resources/public/css/bootstrap/bootstrap-ie6.min.css
+                - bundles/jqueryfileupload/css/bootstrap/bootstrap-ie6.min.css
             filters:
-                - yui_css
+                - cssrewrite
+                - ?yui_css
 
-        JQueryFileUploadBundle_base_js:
+        jqueryfileupload_base_js:
             inputs:
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.min.js
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.ui.widget.js
-                - @JQueryFileUploadBundle/Resources/public/js/tmpl.js
-                - @JQueryFileUploadBundle/Resources/public/js/load-image.min.js
-                - @JQueryFileUploadBundle/Resources/public/js/canvas-to-blob.min.js
-                - @JQueryFileUploadBundle/Resources/public/js/bootstrap/bootstrap.min.js
-                - @JQueryFileUploadBundle/Resources/public/js/bootstrap/bootstrap-image-gallery.min.js
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.iframe-transport.js
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.fileupload.js
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.fileupload-fp.js
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.fileupload-ui.js
-                - @JQueryFileUploadBundle/Resources/public/js/blueimpUploader.js
+                - bundles/jqueryfileupload/js/jquery/jquery.min.js
+                - bundles/jqueryfileupload/js/jquery/jquery.ui.widget.js
+                - bundles/jqueryfileupload/js/tmpl.js
+                - bundles/jqueryfileupload/js/load-image.min.js
+                - bundles/jqueryfileupload/js/canvas-to-blob.min.js
+                - bundles/jqueryfileupload/js/bootstrap/bootstrap.min.js
+                - bundles/jqueryfileupload/js/bootstrap/bootstrap-image-gallery.min.js
+                - bundles/jqueryfileupload/js/jquery/jquery.iframe-transport.js
+                - bundles/jqueryfileupload/js/jquery/jquery.fileupload.js
+                - bundles/jqueryfileupload/js/jquery/jquery.fileupload-fp.js
+                - bundles/jqueryfileupload/js/jquery/jquery.fileupload-ui.js
+                - bundles/jqueryfileupload/js/blueimpUploader.js
             filters:
-                - yui_js
+                - ?yui_js
 
-        JQueryFileUploadBundle_ie9_js:
+        jqueryfileupload_ie9_js:
             inputs:
-                - @JQueryFileUploadBundle/Resources/public/js/jquery/jquery.xdr-transport.js
+                - bundles/jqueryfileupload/js/jquery/jquery.xdr-transport.js
             filters:
-                - yui_js
+                - ?yui_js
 

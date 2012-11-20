@@ -53,14 +53,11 @@ class CssRewriteFilter extends BaseCssFilter
             } elseif ('.' == $targetDir = dirname($targetPath)) {
                 $path = dirname($sourcePath).'/';
             } else {
-                $path = '';
                 while (0 !== strpos($sourcePath, $targetDir)) {
                     if (false !== $pos = strrpos($targetDir, '/')) {
                         $targetDir = substr($targetDir, 0, $pos);
-                        $path .= '../';
                     } else {
                         $targetDir = '';
-                        $path .= '../';
                         break;
                     }
                 }

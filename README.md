@@ -1,12 +1,13 @@
     This bundle is in work progress, do not use it now !!
 
 JQueryFileUploadBundle
-=========================
+======================
 
 Introduction
 ============
 
-This bundle provides multiple file uploads, based on the [https://github.com/blueimp/jQuery-File-Upload/](BlueImp jQuery file uploader) package. Both drag and drop and multiple file selection are fully supported in compatible browsers. We chose BlueImp because it has excellent backwards and forwards browser compatibility. 
+This library provides a symfony2 bundle for the [https://github.com/blueimp/jQuery-File-Upload/](BlueImp jQuery file uploader) package. 
+See [https://github.com/blueimp/jQuery-File-Upload/blob/master/README.md] for the documentation.
 
 This bundle is a fairly thin wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.
 

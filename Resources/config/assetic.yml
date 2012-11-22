@@ -68,6 +68,7 @@ assetic:
                 - '@jqueryfileupload_jquery_js'
                 - '@jqueryfileupload_bootstrap_js'
                 - '@jqueryfileupload_blueimp_js'
+            output: 'js/jqueryfileupload.min.js'
             filters:
                 - ?yui_js
 

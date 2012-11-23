@@ -25,7 +25,7 @@ Requirements
 Installation
 ============
 
-* Add these package to your composer.json:
+1. Add these package to your composer.json:
 ```json
     "require":{
         "mylen/jquery-file-upload-bundle":"*"
@@ -55,17 +55,17 @@ Installation
     ]
 ```
 
-* Modify your AppKernel with the following line:
+2. Modify your AppKernel with the following line:
 ```php
             new Mylen\JQueryFileUploadBundle\JQueryFileUploadBundle(),
 ```
 
-* Update composer
+3. Update composer
 ```sh
    php composer.phar update
 ```
-* Add these to your configuration file (app/config/config.yml)
-```json
+4. Add these to your configuration file (app/config/config.yml)
+```
 imports:
     - { resource: '@JQueryFileUploadBundle/Resources/config/parameters.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/services.yml' }
@@ -74,11 +74,11 @@ imports:
 ```
 You are welcome to customize these files, just copy them in your app/config directory. As an exemple, you can restrict authorized file type. You can also bundle the CSS and JS files to your app CSS and JS; then remove the assetic.yml...
 
-* install web assets
+5. install web assets
 ```sh
 php app/console assets:install web/
 ```
-* run assetic dump
+6. run assetic dump
 ```sh
 php app/console assetic:dump
 ```

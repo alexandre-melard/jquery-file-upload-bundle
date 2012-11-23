@@ -1,0 +1,12 @@
+# Override the Apache User (vhosts are included at the end of apache2.conf)
+User vagrant
+Group vagrant
+
+<VirtualHost *:80>
+  Servername devbox
+  Serveralias 192.168.111.111
+  DocumentRoot /vagrant/web
+  <Directory "/vagrant/web">
+    AllowOverride All
+  </Directory>
+</VirtualHost>

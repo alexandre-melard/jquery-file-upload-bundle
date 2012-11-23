@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+  DocumentRoot <%= @params[:docroot] %>
+  <Directory <%= @params[:docroot] %>>
+    Options +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Allow from All
+    DirectoryIndex app.php
+  </Directory>
+  Alias /JQueryFileUploadSandbox /vagrant/jquery-file-upload-sandbox/web/
+</VirtualHost>

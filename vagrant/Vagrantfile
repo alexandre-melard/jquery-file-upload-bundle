@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |config|
+  config.vm.box = "precise64"
+
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+  config.vm.host_name = "devbox"
+  config.vm.customize ["modifyvm", :id, "--memory", 768]
+
+  config.vm.forward_port 80, 8888
+  config.vm.forward_port 3306, 6666
+
+  config.vm.network :hostonly, "192.168.111.111"
+
+  config.vm.share_folder "v-root", "/vagrant", ".." , :nfs => true
+
+  # whithout this symlinks can't be created on the shared folder
+  config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["./", "../../cookbooks/"]
+    chef.log_level = ENV['CHEF_LOG'] || "info"
+
+    chef.add_recipe "apt"
+    chef.add_recipe "openssl"
+    chef.add_recipe "apache2"
+    chef.add_recipe "mysql"
+    chef.add_recipe "mysql::server"
+    chef.add_recipe "apache2::mod_rewrite"
+
+    #specific config
+    chef.add_recipe "cookbook"
+
+    chef.json = {
+        :mysql => {
+            :server_root_password => 'helloroot',
+            :bind_address => '0.0.0.0'
+        }
+    }
+  end
+end

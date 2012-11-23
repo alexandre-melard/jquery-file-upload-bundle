@@ -31,34 +31,33 @@
     <div class="container">
         {% block flashes %}
             {% if app.session.flashbag.peekAll|length > 0 %}
-                <div class="row-fluid">
-                    <div class="span12">
+                <div class="row-fluid span12">
                     {{ session_flash() }}
-                    </div>
                 </div>
             {% endif %}
         {% endblock flashes %}
-    <!-- The file upload form used as target for the file upload widget -->
-    {% block js_blueimp_form %}
-    <!--  TODO: change path -->
-        <form id="fileupload" action="{{ path('default') }}" method="POST" {{ form_enctype(form) }}>
-            {{ form_widget(form) }}
-            {% include "JQueryFileUploadBundle::form.html.twig" %}
-        </form>
-    {% endblock js_blueimp_form %}
+    <div class="row-fluid span7">
+        <!-- The file upload form used as target for the file upload widget -->
+        {% block js_blueimp_form %}
+            <!--  TODO: change path -->
+            <form id="fileupload" action="{{ path('default') }}" method="POST" {{ form_enctype(form) }}>
+                {{ form_widget(form) }}
+                {% include "JQueryFileUploadBundle::form.html.twig" %}
+            </form>
+        {% endblock js_blueimp_form %}
+        <!-- modal-gallery is the modal dialog used for the image gallery -->
+        {% block js_blueimp_tmpl_gallery %}
+            {% include "JQueryFileUploadBundle::gallery.html.twig" %}
+        {% endblock js_blueimp_tmpl_gallery %}
+        {% block js_blueimp_tmpl_upload %}
+            <!-- The template to display files available for upload -->
+            {% include "JQueryFileUploadBundle::template-upload.html.twig" %}
+        {% endblock js_blueimp_tmpl_upload %}
+        <!-- The template to display files available for download -->
+        {% block js_blueimp_tmpl_download %}
+            {% include "JQueryFileUploadBundle::template-download.html.twig" %}
+        {% endblock js_blueimp_tmpl_download %}
     </div>
-    <!-- modal-gallery is the modal dialog used for the image gallery -->
-    {% block js_blueimp_tmpl_gallery %}
-        {% include "JQueryFileUploadBundle::gallery.html.twig" %}
-    {% endblock js_blueimp_tmpl_gallery %}
-    {% block js_blueimp_tmpl_upload %}
-        <!-- The template to display files available for upload -->
-        {% include "JQueryFileUploadBundle::template-upload.html.twig" %}
-    {% endblock js_blueimp_tmpl_upload %}
-    <!-- The template to display files available for download -->
-    {% block js_blueimp_tmpl_download %}
-        {% include "JQueryFileUploadBundle::template-download.html.twig" %}
-    {% endblock js_blueimp_tmpl_download %}
     {% block js_blueimp_uploader %}
         {% include "JQueryFileUploadBundle::javascripts.html.twig" %}
     {% endblock js_blueimp_uploader %}

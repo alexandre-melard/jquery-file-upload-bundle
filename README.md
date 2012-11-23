@@ -105,33 +105,6 @@ or if you want to customize the view:
 
 If you want to see how you can integrate these bundle into your app, I urge you to clone the [sandbox](https://github.com/mylen/jquery-file-upload-bundle). The sandbox integrate a configuration for vagrant so you can try it out of the box :o)
 
-In the Upload Action
-====================
-
-In addition to the regular edit action of your form, there must be an upload action to handle file uploads. This action will call the handleFileUpload method of the service to pass on the job to BlueImp's UploadHandler class. Since that class implements the entire REST response directly in PHP, the method does not return.
-
-Here is the upload action:
-```php
-    /**
-     *
-     * @Route("/upload", name="upload")
-     * @Template()
-     */
-    public function uploadAction()
-    {
-        $editId = $this->getRequest()->get('editId');
-        if (!preg_match('/^\d+$/', $editId))
-        {
-            throw new Exception("Bad edit id");
-        }
-
-        $this->get('mylen.file_uploader')->handleFileUpload(array('folder' => 'tmp/attachments/' . $editId));
-    }
-```
-This single action actually implements a full REST API in which the BlueImp UploadHandler class takes care of uploading as well as deleting files.
-
-Again, handleFileUpload DOES NOT RETURN as the response is generated in native PHP by BlueImp's UploadHandler class.
-
 Configuration Parameters
 ========================
 

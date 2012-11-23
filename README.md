@@ -21,7 +21,6 @@ Requirements
 * Symfony2
 * jQuery
 * jQuery UI
-* Underscore
 
 Installation
 ============

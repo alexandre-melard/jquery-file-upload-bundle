@@ -1,19 +1,14 @@
-    This bundle is in work progress, do not use it now !!
-
 JQueryFileUploadBundle
 ======================
 
 Introduction
 ============
 
-This library provides a symfony2 bundle for the [https://github.com/blueimp/jQuery-File-Upload/](BlueImp jQuery file uploader) package. 
-See [https://github.com/blueimp/jQuery-File-Upload/blob/master/README.md] for the documentation.
+This library provides a symfony2 bundle for the [[BlueImp JQuery file uploader](https://github.com/blueimp/jQuery-File-Upload/)] package. See [[documentation](https://github.com/blueimp/jQuery-File-Upload/blob/master/README.md)]
 
-This bundle is a fairly thin wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.
+This bundle is a fairly minimal wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.
 
-The uploader delivers files to a folder that you specify. If that folder already contains files, they are displayed side by side with new files, as existing files that can be removed. 
-
-The bundle can automatically scale images to sizes you specify. The provided synchronization methods make it possible to create forms in which attached files respect "save" and "cancel" operations.
+This bundle started as a fork of the [symfony2-file-uploader-bundle](https://github.com/punkave/symfony2-file-uploader-bundle) from @punkave. I've made so many changes to the original fork that I just started a new bundle.
 
 Note on Internet Explorer
 =========================
@@ -31,156 +26,83 @@ Requirements
 Installation
 ============
 
-1) Add the following line to your Symfony2 deps file:
-    
-    [JQueryFileUploadBundle]
-        git=http://github.com/punkave/symfony2-file-uploader-bundle.git
-        target=/bundles/PunkAve/FileUploaderBundle
+1) Add these package to your composer.json:
+```
+    "require":{
+        "mylen/jquery-file-upload-bundle":"*"
+    },
+    "repositories":[
+        {
+            "type":"package",
+            "package":{
+                "version":"dev-master",
+                "name":"blueimp/jquery-file-upload",
+                "autoload": {
+                    "psr-0": {
+                        "UploadHandler": "server/php"
+                    }
+                },
+                "source":{
+                    "url":"https://github.com/blueimp/jQuery-File-Upload.git",
+                    "type":"git",
+                    "reference":"master"
+                },
+                "dist":{
+                    "url":"https://github.com/blueimp/jQuery-File-Upload/zipball/master",
+                    "type":"zip"
+                }
+            }
+    	}
+    ]
+```
 
 2) Modify your AppKernel with the following line:
+```
+            new Mylen\JQueryFileUploadBundle\JQueryFileUploadBundle(),
+```
 
-    new BlueImp\JQueryFileUploadBundle\JQueryFileUploadBundle(),
+3) Update composer
+```
+   php composer.phar update
+```
+4) Add these to your configuration file (app/config/config.yml)
+    - { resource: '@JQueryFileUploadBundle/Resources/config/parameters.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/services.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/filters.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/assetic.yml' }
 
-3) If you do not already have it, add the following line to your autoload.php file:
+You are welcome to customize these files, just copy them in your app/config directory. As an exemple, you can restrict authorized file type. You can also bundle the CSS and JS files to your app CSS and JS; then remove the assetic.yml...
 
-    'PunkAve' => __DIR__.'/../vendor/bundles',
-
-4) Install your vendors:
-
-    bin/vendors install
+5) install web assets
+```
+php app/console assets:install web/
+```
+6) run assetic dump
+```
+php app/console assetic:dump
+```
 
 Usage
 =====
 
-Your page must contain Underscore templates to render the file list and uploader. You can use our templates like this:
-
-    {# Underscore templates for the uploader #}
+You can use our templates like this:
+```
     {% include "JQueryFileUploadBundle:Default:templates.html.twig" %}
-
-It is sufficient to do so anywhere in the body. You can copy and modify templates.html.twig if you wish and include it from your own directory. Just don't remove the data-* attributes. The rest of the markup is up to you.
-
-In the Edit Action
-==================
-
-Let's assume you have an editAction() method in a controller. You have a form in which you would like to include a list of attached files that work like other fields in the form: you can add more, you can remove existing files, but nothing permanent happens unless the user clicks "save."
-
-The FileUploader service needs a unique folder name for the files attached to a given object. To accomplish this for new objects as well as existing objects, we suggest you follow the "editId pattern," in which a form is assigned a unique, random "editId" for its entire lifetime, including multiple passes of validation if necessary. This allows us to manage file uploads for new objects that don't have their own id yet.
-
-This code takes creat of creating an editId on the first pass through the form and syncs existing files attached to an existing object, if any. The from_folder and to_folder objects specify subdirectories where the attached files will be stored. Later we'll look at how the parent directories of these folders are determined.
-
-(Fetching $posting and validating that the user is allowed to edit that posting is up to you.)
-
-    $request = $this->getRequest();
- 
-    $editId = $this->getRequest()->get('editId');
-    if (!preg_match('/^\d+$/', $editId))
-    {
-        $editId = sprintf('%09d', mt_rand(0, 1999999999));
-        if ($posting->getId())
-        {
-            $this->get('mylen.file_uploader')->syncFiles(
-                array('from_folder' => 'attachments/' . $posting->getId(), 
-                  'to_folder' => 'tmp/attachments/' . $editId,
-                  'create_to_folder' => true));
-        }
-    }
-
-If the user encounters a validation error on their first attempt to complete the action (for instance, a form validation error), you'll want to present the same list of files again. So use the `getFiles` method to obtain a list of existing files. Make sure you pass that list to your template.
-
-    $existingFiles = $this->get('mylen.file_uploader')->getFiles(array('folder' => 'tmp/attachments/' . $editId));
-
-(Note that the editId you generate should be highly random to prevent users from gaining control of each other's attachments.)
-
-When the user saves the form and you have just persisted the posting object, you should also sync files back from the temporary folder associated with the editId to the permanent one associated with the posting's id. Since we are done with the temporary folder we ask the file uploader service to remove that folder. We also ask the service to create the destination folder if necessary:
-
-    $fileUploader = $this->get('mylen.file_uploader');
-    $fileUploader->syncFiles(
-        array('from_folder' => '/tmp/attachments/' . $editId,
-        'to_folder' => '/attachments/' . $posting->getId(),
-        'remove_from_folder' => true,
-        'create_to_folder' => true));
-
-Later you can easily obtain a list of the names of all files attached to an object:
-
-    $files = $fileUploader->getFiles(array('folder' => 'attachments/' . $posting->getId()));
-
-However there is a performance cost associated with accessing the filesystem. You will find it more efficient to keep a list of attachments in a Doctrine table, especially if you want to include the first attachment in a list view. Just use getFiles to get the list of filenames and mirror that in your database as you see fit.
-
-In Your Layout
-==============
-
-To make the necessary JavaScript available via Assetic (note that you must supply jQuery, jQuery UI and Underscore):
-
-    {% javascripts 
-        '@MyBundle/Resources/public/js/jquery-1.7.2.min.js'
-        '@MyBundle/Resources/public/js/jquery-ui-1.8.22.custom.min.js'
-        '@MyBundle/Resources/public/js/underscore-min.js'
-        '@JQueryFileUploadBundle/Resources/public/js/jquery.fileupload.js'
-        '@JQueryFileUploadBundle/Resources/public/js/FileUploader.js' %}
-        <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-In the Edit Template
-====================
-
-Let's assume there is an edit.html.twig template associated with the edit action. Here's what it might look like. Note that the render call in your action would pass in the posting object, the editId, the existingFiles array and the isNew flag:
-
-    {% extends "MyBundle:Default:layout.html.twig" %}
-
-    {% block body %}
-
-    {# Underscore templates for the uploader #}
-    {% include "JQueryFileUploadBundle:Default:templates.html.twig" %}
-
-    <form class="edit-form" action="{{ path('edit', { id: posting.id, editId: editId }) }}" method="post" {{ form_enctype(form) }}>
+```
+or if you want to customize the view:
+```
+{% extends 'JQueryFileUploadBundle::templates.html.twig' %}
+{% block js_blueimp_form %}
+    <!--  TODO: change path -->
+    <form id="fileupload" action="{{ path('default') }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-
-        {# Hydrated by javascript #}
-        <div class="file-uploader"></div>
-
-        <button class="btn btn-primary" type="submit">{{ isNew ? "Save New Listing" : "Save Changes" }}</button> 
-        <a class="btn" href="{{ cancel }}">Cancel</a>
-        {% if not isNew %}
-            <a class="btn btn-danger" href="{{ path('delete', { id: posting.id } ) }}">Delete</a>
-        {% endif %}
-
+        {% include "JQueryFileUploadBundle::form.html.twig" %}
+        <button type="submit" class="btn">Save</button>
     </form>
+{% endblock js_blueimp_form %}
+```
 
-    <script type="text/javascript">
-
-    // Enable the file uploader
-
-    $(function() {
-        new PunkAveFileUploader({ 
-            'uploadUrl': {{ path('upload', { editId: editId }) | json_encode | raw }},
-            'viewUrl': {{ '/uploads/tmp/attachments/' ~ editId | json_encode | raw }},
-            'el': '.file-uploader',
-            'existingFiles': {{ existingFiles | json_encode | raw }},
-            'delaySubmitWhileUploading': '.edit-form'
-        });
-    });
-    </script>
-    {% endblock %}
-
-Progress Display
-================
-
-There is a simple spinner in template.html.twig. If you choose to provide your own Underscore templates you can replace it. Just make sure you have your own element with a data-spinner="1" attribute.
-
-If you are using template.html.twig, note that you must publish your assets in the usual way for the spinner image to be available:
-
-    php app/console assets:install web/
-
-As an alternative, you can write your own code on an interval timer that checks whether the `uploading` property of the PunkAveFileUploader object is currently set to true and display a spinner on that basis.
-
-Delaying Form Submission Until Uploads Complete
-===============================================
-
-It's not a good idea to let the user submit a form that the file uploader is meant to be part of if uploads are still in progress. You can easily block this by specifying the 'delaySubmitWhileUploading' option as shown above when creating the PunkAveFileUploader JavaScript object:
-
-    'delaySubmitWhileUploading': '.edit-form'
-
-Alternatively, you can check the `uploading` property of the object you create with `new PunkAveFileUploader(...)` at any time. It will be true if an upload is in progress. The existing implementation of `delaySubmitWhileUploading` relies on this.
+If you want to see how you can integrate these bundle into your app, I urge you to clone the [sandbox](https://github.com/mylen/jquery-file-upload-bundle). The sandbox integrate a configuration for vagrant so you can try it out of the box :o)
 
 In the Upload Action
 ====================
@@ -208,30 +130,6 @@ Here is the upload action:
 This single action actually implements a full REST API in which the BlueImp UploadHandler class takes care of uploading as well as deleting files.
 
 Again, handleFileUpload DOES NOT RETURN as the response is generated in native PHP by BlueImp's UploadHandler class.
-
-Removing Files
-==============
-
-Sooner or later the posting is deleted and you want all of the attachments to be deleted as well.
-
-You can do this as follows:
-
-    $this->get('mylen.file_uploader')->removeFiles(array('folder' => 'attachments/' . $posting->getId()));
-
-You might want to do that in a manager class or a doctrine event listener, but that's not our department.
-
-Removing Temporary Files
-========================
-
-If you choose to follow our editId pattern, you'll want to purge contents of web/uploads/tmp that are over a certain age on a periodic basis. People walk away from websites a lot, so not everyone will click your thoughtfully provided "cancel" action that calls removeFiles() based on the editId pattern.
-
-Consider installing this shell script as a cron job to be run nightly. This shell script deletes files more than one day old, then deletes empty folders:
-
-    #!/bin/sh
-    find /path/to/my/project/web/uploads/tmp -mtime +1 -type f -delete
-    find /path/to/my/project/web/uploads/tmp -mindepth 1 -type d -empty -delete
-
-(Since the second command is not recursive, the parent folders may stick around an extra day, but they are removed the next day.)
 
 Configuration Parameters
 ========================
@@ -262,13 +160,6 @@ So all of these can be readily accessed via the following URLs:
 And so on.
 
 The original names and file extensions of the files uploaded are preserved as much as possible without introducing security risks. 
-
-Limitations
-===========
-
-This bundle accesses the file system via the `glob()` function. It won't work out of the box with an S3 stream wrapper. 
-
-Syncing files back and forth to follow the editId pattern might not be agreeable if your attachments are very large. In that case, don't use the editId pattern. One alternative is to create objects immediately in the database and not show them in the list view until you mark them live. This way your edit action can use the permanent id of the object as part of the `folder` option, and nothing has to be synced. In this scenario you should probably move the attachments list below the form to hint to the user that there is no such thing as "cancelling" those actions.
 
 Notes
 =====

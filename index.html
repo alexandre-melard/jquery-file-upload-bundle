@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Jquery-file-upload-bundle by mylen</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Jquery-file-upload-bundle</h1>
+        <h2>symfony2 bundle for the jquery-file-upload project from blueimp</h2>
+        <a href="https://github.com/mylen/jquery-file-upload-bundle" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>JQueryFileUploadBundle</h1>
+
+<h1>Introduction</h1>
+
+<p>This library provides a symfony2 bundle for the [<a href="https://github.com/blueimp/jQuery-File-Upload/">BlueImp JQuery file uploader</a>] package. See [<a href="https://github.com/blueimp/jQuery-File-Upload/blob/master/README.md">documentation</a>]</p>
+
+<p>This bundle is a fairly minimal wrapper because the existing PHP uploader class provided by BlueImp is very good already and does so many excellent things straight out of the box. We provided a way to integrate it into a Symfony 2 project.</p>
+
+<p>This bundle started as a fork of the <a href="https://github.com/punkave/symfony2-file-uploader-bundle">symfony2-file-uploader-bundle</a> from <a href="https://github.com/punkave" class="user-mention">@punkave</a>. I've made so many changes to the original fork that I just started a new bundle.</p>
+
+<h1>Note on Internet Explorer</h1>
+
+<p>Versions of Internet Explorer prior to 10 have no support for multiple file uploads. However IE users will be able to add a single file at a time and will still be able to build a collection of attached files. </p>
+
+<h1>Requirements</h1>
+
+<ul>
+<li>Symfony2</li>
+<li>jQuery</li>
+<li>jQuery UI</li>
+<li>Underscore</li>
+</ul><h1>Installation</h1>
+
+<p>1) Add these package to your composer.json:</p>
+
+<pre><code>    "require":{
+        "mylen/jquery-file-upload-bundle":"*"
+    },
+    "repositories":[
+        {
+            "type":"package",
+            "package":{
+                "version":"dev-master",
+                "name":"blueimp/jquery-file-upload",
+                "autoload": {
+                    "psr-0": {
+                        "UploadHandler": "server/php"
+                    }
+                },
+                "source":{
+                    "url":"https://github.com/blueimp/jQuery-File-Upload.git",
+                    "type":"git",
+                    "reference":"master"
+                },
+                "dist":{
+                    "url":"https://github.com/blueimp/jQuery-File-Upload/zipball/master",
+                    "type":"zip"
+                }
+            }
+        }
+    ]
+</code></pre>
+
+<p>2) Modify your AppKernel with the following line:</p>
+
+<pre><code>            new Mylen\JQueryFileUploadBundle\JQueryFileUploadBundle(),
+</code></pre>
+
+<p>3) Update composer</p>
+
+<pre><code>   php composer.phar update
+</code></pre>
+
+<p>4) Add these to your configuration file (app/config/config.yml)
+    - { resource: '@JQueryFileUploadBundle/Resources/config/parameters.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/services.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/filters.yml' }
+    - { resource: '@JQueryFileUploadBundle/Resources/config/assetic.yml' }</p>
+
+<p>You are welcome to customize these files, just copy them in your app/config directory. As an exemple, you can restrict authorized file type. You can also bundle the CSS and JS files to your app CSS and JS; then remove the assetic.yml...</p>
+
+<p>5) install web assets</p>
+
+<pre><code>php app/console assets:install web/
+</code></pre>
+
+<p>6) run assetic dump</p>
+
+<pre><code>php app/console assetic:dump
+</code></pre>
+
+<h1>Usage</h1>
+
+<p>You can use our templates like this:</p>
+
+<pre><code>    {% include "JQueryFileUploadBundle:Default:templates.html.twig" %}
+</code></pre>
+
+<p>or if you want to customize the view:</p>
+
+<pre><code>{% extends 'JQueryFileUploadBundle::templates.html.twig' %}
+{% block js_blueimp_form %}
+    &lt;!--  TODO: change path --&gt;
+    &lt;form id="fileupload" action="{{ path('default') }}" method="POST" {{ form_enctype(form) }}&gt;
+        {{ form_widget(form) }}
+        {% include "JQueryFileUploadBundle::form.html.twig" %}
+        &lt;button type="submit" class="btn"&gt;Save&lt;/button&gt;
+    &lt;/form&gt;
+{% endblock js_blueimp_form %}
+</code></pre>
+
+<p>If you want to see how you can integrate these bundle into your app, I urge you to clone the <a href="https://github.com/mylen/jquery-file-upload-bundle">sandbox</a>. The sandbox integrate a configuration for vagrant so you can try it out of the box :o)</p>
+
+<h1>In the Upload Action</h1>
+
+<p>In addition to the regular edit action of your form, there must be an upload action to handle file uploads. This action will call the handleFileUpload method of the service to pass on the job to BlueImp's UploadHandler class. Since that class implements the entire REST response directly in PHP, the method does not return.</p>
+
+<p>Here is the upload action:</p>
+
+<pre><code>/**
+ *
+ * @Route("/upload", name="upload")
+ * @Template()
+ */
+public function uploadAction()
+{
+    $editId = $this-&gt;getRequest()-&gt;get('editId');
+    if (!preg_match('/^\d+$/', $editId))
+    {
+        throw new Exception("Bad edit id");
+    }
+
+    $this-&gt;get('mylen.file_uploader')-&gt;handleFileUpload(array('folder' =&gt; 'tmp/attachments/' . $editId));
+}
+</code></pre>
+
+<p>This single action actually implements a full REST API in which the BlueImp UploadHandler class takes care of uploading as well as deleting files.</p>
+
+<p>Again, handleFileUpload DOES NOT RETURN as the response is generated in native PHP by BlueImp's UploadHandler class.</p>
+
+<h1>Configuration Parameters</h1>
+
+<p>See <code>Resources/config/services.yml</code> in this bundle. You can easily decide what the parent folder of uploads will be and what file extensions are accepted, as well as what sizes you'd like image files to be automatically scaled to. </p>
+
+<p>The <code>from_folder</code>, <code>to_folder</code>, and <code>folder</code> options seen above are all appended after <code>file_uploader.file_base_path</code> when dealing with files. </p>
+
+<p>If <code>file_uploader.file_base_path</code> is set as follows (the default):</p>
+
+<pre><code>file_uploader.file_base_path: "%kernel.root_dir%/../web/uploads"
+</code></pre>
+
+<p>And the <code>folder</code> option is set to <code>attachments/5</code> when calling <code>handleFileUpload</code>, then the uploaded files will arrive in:</p>
+
+<pre><code>/root/of/your/project/web/uploads/attachments/5/originals
+</code></pre>
+
+<p>If the only attached file for this posting is <code>botfly.jpg</code> and you have configured one or more image sizes for the <code>file_uploader.sizes</code> option (by default we provide several useful standard sizes), then you will see:</p>
+
+<pre><code>/root/of/your/project/web/uploads/photos/5/originals/botfly.jpg
+/root/of/your/project/web/uploads/photos/5/thumbnail/botfly.jpg
+/root/of/your/project/web/uploads/photos/5/medium/botfly.jpg
+/root/of/your/project/web/uploads/photos/5/large/botfly.jpg
+</code></pre>
+
+<p>So all of these can be readily accessed via the following URLs:</p>
+
+<pre><code>/uploads/photos/5/originals/botfly.jpg
+</code></pre>
+
+<p>And so on.</p>
+
+<p>The original names and file extensions of the files uploaded are preserved as much as possible without introducing security risks. </p>
+
+<h1>Notes</h1>
+
+<p>The uploader has been styled using Bootstrap conventions. If you have Bootstrap in your project, the uploader should look reasonably pretty out of the box.</p>
+
+<p>The "Choose Files" button allows multiple select as well as drag and drop.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/mylen/jquery-file-upload-bundle/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/mylen/jquery-file-upload-bundle/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/mylen/jquery-file-upload-bundle"></a> is maintained by <a href="https://github.com/mylen">mylen</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

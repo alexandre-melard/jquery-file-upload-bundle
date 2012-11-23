@@ -26,7 +26,7 @@ Installation
 ============
 
 1) Add these package to your composer.json:
-```
+```json
     "require":{
         "mylen/jquery-file-upload-bundle":"*"
     },
@@ -65,11 +65,12 @@ Installation
    php composer.phar update
 ```
 4) Add these to your configuration file (app/config/config.yml)
+```json
     - { resource: '@JQueryFileUploadBundle/Resources/config/parameters.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/services.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/filters.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/assetic.yml' }
-
+```
 You are welcome to customize these files, just copy them in your app/config directory. As an exemple, you can restrict authorized file type. You can also bundle the CSS and JS files to your app CSS and JS; then remove the assetic.yml...
 
 5) install web assets

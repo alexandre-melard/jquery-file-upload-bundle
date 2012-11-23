@@ -14,18 +14,11 @@ class FileUploader implements IFileUploader
     /** @var \Symfony\Component\HttpFoundation\Request */
     protected $request;
 
-        protected $allowedExtensions;
+    protected $allowedExtensions;
     protected $sizes;
     protected $originals;
 
-    public function __construct(
-        $fileBasePath = null,
-        $webBasePath = null,
-        $request = null,
-        $allowedExtensions = null,
-        $sizes = null,
-        $originals = null
-    )
+    public function __construct($fileBasePath = null, $webBasePath = null, $request = null, $allowedExtensions = null, $sizes = null, $originals = null)
     {
         $this->fileBasePath = $fileBasePath;
         $this->webBasePath = $webBasePath;
@@ -41,9 +34,12 @@ class FileUploader implements IFileUploader
     public function handleFileUpload($folder)
     {
         // Build a regular expression like /(\.gif|\.jpg|\.jpeg|\.png)$/i
-        $allowedExtensionsRegex = '/(' . implode('|', array_map(function ($extension) {
-            return '\.' . $extension;
-        }, $this->allowedExtensions)) . ')$/i';
+        $allowedExtensionsRegex = '/('
+                . implode('|',
+                        array_map(function ($extension)
+                                {
+                                    return '\.' . $extension;
+                                }, $this->allowedExtensions)) . ')$/i';
 
         $sizes = (isset($this->sizes) && is_array($this->sizes)) ? $this->sizes : array();
 
@@ -66,14 +62,14 @@ class FileUploader implements IFileUploader
         @mkdir($uploadDir, 0777, true);
 
         $uploadHandler = new UploadHandler(
-            array(
-                'upload_dir' => $uploadDir,
-                'upload_url' => $webPath . '/' . $originals['folder'] . '/',
-                'script_url' => $this->request->getUri(),
-                'image_versions' => $sizes,
-                'accept_file_types' => $allowedExtensionsRegex
-            ),
-            false);
+                array('upload_dir' => $uploadDir, 'upload_url' => $webPath . '/' . $originals['folder'] . '/', 'script_url' => $this->request->getUri(),
+                        'image_versions' => $sizes, 'accept_file_types' => $allowedExtensionsRegex), false);
         return $uploadHandler;
     }
+
+    public function getFileBasePath()
+    {
+        return $this->fileBasePath;
+    }
+
 }

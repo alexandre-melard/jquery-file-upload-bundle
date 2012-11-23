@@ -28,5 +28,7 @@ interface IFileUploader
      * @return  IResponseContainer              Contains the header, body and/or the file to send
      */
     public function handleFileUpload($folder);
-    
+
+    public function getFileBasePath();
+
 }

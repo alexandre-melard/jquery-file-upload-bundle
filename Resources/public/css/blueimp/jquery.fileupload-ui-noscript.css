@@ -9,19 +9,16 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-
 .fileinput-button input {
-  position: static;
-  opacity: 1;
-  filter: none;
-  transform: none;
-  font-size: inherit;
-  direction: inherit;
+	position: static;
+	opacity: 1;
+	filter: none;
+	transform: none;
+	font-size: inherit;
+	direction: inherit;
 }
 
-.fileinput-button span,
-.fileinput-button i,
-.fileupload-buttonbar .delete,
-.fileupload-buttonbar .toggle {
-  display: none;
+.fileinput-button span,.fileinput-button i,.fileupload-buttonbar .delete,.fileupload-buttonbar .toggle
+	{
+	display: none;
 }

@@ -1,3 +1,4 @@
+{% from 'JQueryFileUploadBundle::flash.macros.twig' import session_flash %}
 {% block js_blueimp_head %}
     <!DOCTYPE HTML>
     <!--
@@ -28,6 +29,15 @@
 {% block js_blueimp_body %}
     <body>
     <div class="container">
+        {% block flashes %}
+            {% if app.session.flashbag.peekAll|length > 0 %}
+                <div class="row-fluid">
+                    <div class="span12">
+                    {{ session_flash() }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock flashes %}
     <!-- The file upload form used as target for the file upload widget -->
     {% block js_blueimp_form %}
     <!--  TODO: change path -->

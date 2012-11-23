@@ -10,63 +10,52 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
-
-.span1,
-.span2,
-.span3,
-.span4,
-.span5,
-.span6,
-.span7,
-.span8,
-.span9,
-.span10,
-.span11,
-.span12 {
-  display: inline;
-  float: left;
-  margin-left: 20px;
+.span1,.span2,.span3,.span4,.span5,.span6,.span7,.span8,.span9,.span10,.span11,.span12
+	{
+	display: inline;
+	float: left;
+	margin-left: 20px;
 }
 
 input {
-  width: auto;
+	width: auto;
 }
 
 .modal {
-  position: absolute;
-  top: 50%;
-  filter: none;
+	position: absolute;
+	top: 50%;
+	filter: none;
 }
 
 .navbar-fixed-top {
-  position: absolute;
+	position: absolute;
 }
 
 .nav li {
-  display: block;
-  float: left;
+	display: block;
+	float: left;
 }
 
 .nav li a {
-  display: block;
-  padding: 10px 10px 11px;
-  line-height: 19px;
+	display: block;
+	padding: 10px 10px 11px;
+	line-height: 19px;
 }
 
 .navbar .nav li a {
-  color: #777777;
+	color: #777777;
 }
 
 .navbar .nav li a:hover {
-  color: #333333;
-  text-decoration: none;
+	color: #333333;
+	text-decoration: none;
 }
 
 .nav-pills .active a {
-  color: #ffffff;
-  background-color: #0088cc;
+	color: #ffffff;
+	background-color: #0088cc;
 }
 
 .nav-pills a:hover {
-  text-decoration: none;
+	text-decoration: none;
 }

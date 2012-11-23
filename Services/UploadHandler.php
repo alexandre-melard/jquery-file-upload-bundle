@@ -17,18 +17,21 @@ class UploadHandler extends BaseUploadHandler implements IResponseContainer
     protected $header = array();
     protected $readfile = null;
 
-    protected function readfile($file_path) {
+    protected function readfile($file_path)
+    {
         $this->readfile = $file_path;
     }
 
-    protected function body($str) {
+    protected function body($str)
+    {
         $this->body .= $str;
     }
 
-    protected function header($str) {
+    protected function header($str)
+    {
         if (strchr($str, ':')) {
             $head = explode(':', $str);
-            array_push($this->header, array($head[0]=>$head[1]));
+            array_push($this->header, array($head[0] => $head[1]));
         } else {
             if (strstr($str, '403'))
                 $this->type = 403;

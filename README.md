@@ -25,7 +25,7 @@ Requirements
 Installation
 ============
 
-1) Add these package to your composer.json:
+* Add these package to your composer.json:
 ```json
     "require":{
         "mylen/jquery-file-upload-bundle":"*"
@@ -55,17 +55,18 @@ Installation
     ]
 ```
 
-2) Modify your AppKernel with the following line:
-```
+* Modify your AppKernel with the following line:
+```php
             new Mylen\JQueryFileUploadBundle\JQueryFileUploadBundle(),
 ```
 
-3) Update composer
-```
+* Update composer
+```sh
    php composer.phar update
 ```
-4) Add these to your configuration file (app/config/config.yml)
+* Add these to your configuration file (app/config/config.yml)
 ```json
+imports:
     - { resource: '@JQueryFileUploadBundle/Resources/config/parameters.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/services.yml' }
     - { resource: '@JQueryFileUploadBundle/Resources/config/filters.yml' }
@@ -73,12 +74,12 @@ Installation
 ```
 You are welcome to customize these files, just copy them in your app/config directory. As an exemple, you can restrict authorized file type. You can also bundle the CSS and JS files to your app CSS and JS; then remove the assetic.yml...
 
-5) install web assets
-```
+* install web assets
+```sh
 php app/console assets:install web/
 ```
-6) run assetic dump
-```
+* run assetic dump
+```sh
 php app/console assetic:dump
 ```
 
@@ -86,11 +87,11 @@ Usage
 =====
 
 You can use our templates like this:
-```
+```twig
     {% include "JQueryFileUploadBundle:Default:templates.html.twig" %}
 ```
 or if you want to customize the view:
-```
+```twig
 {% extends 'JQueryFileUploadBundle::templates.html.twig' %}
 {% block js_blueimp_form %}
     <!--  TODO: change path -->
@@ -110,7 +111,7 @@ In the Upload Action
 In addition to the regular edit action of your form, there must be an upload action to handle file uploads. This action will call the handleFileUpload method of the service to pass on the job to BlueImp's UploadHandler class. Since that class implements the entire REST response directly in PHP, the method does not return.
 
 Here is the upload action:
-
+```php
     /**
      *
      * @Route("/upload", name="upload")
@@ -126,7 +127,7 @@ Here is the upload action:
 
         $this->get('mylen.file_uploader')->handleFileUpload(array('folder' => 'tmp/attachments/' . $editId));
     }
-
+```
 This single action actually implements a full REST API in which the BlueImp UploadHandler class takes care of uploading as well as deleting files.
 
 Again, handleFileUpload DOES NOT RETURN as the response is generated in native PHP by BlueImp's UploadHandler class.

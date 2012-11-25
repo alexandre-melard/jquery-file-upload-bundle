@@ -30,5 +30,7 @@ interface IFileUploader
     public function handleFileUpload($folder);
 
     public function getFileBasePath();
-
+    
+    public function getFileWebPath();
+    
 }

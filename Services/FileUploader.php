@@ -71,5 +71,9 @@ class FileUploader implements IFileUploader
     {
         return $this->fileBasePath;
     }
-
+    
+    public function getWebBasePath() {
+        return $this->webBasePath;
+    }
+    
 }

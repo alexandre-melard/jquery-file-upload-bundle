@@ -31,6 +31,6 @@ interface IFileUploader
 
     public function getFileBasePath();
     
-    public function getFileWebPath();
+    public function getWebBasePath();
     
 }

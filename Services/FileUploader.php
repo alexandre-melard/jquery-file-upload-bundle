@@ -17,6 +17,7 @@ class FileUploader implements IFileUploader
     protected $allowedExtensions;
     protected $sizes;
     protected $originals;
+    protected $uploadHandlerFactory;
 
     public function __construct($fileBasePath = null, $webBasePath = null, $request = null, $allowedExtensions = null, $sizes = null, $originals = null)
     {
@@ -61,12 +62,30 @@ class FileUploader implements IFileUploader
 
         @mkdir($uploadDir, 0777, true);
 
-        $uploadHandler = new UploadHandler(
-                array('upload_dir' => $uploadDir, 'upload_url' => $webPath . '/' . $originals['folder'] . '/', 'script_url' => $this->request->getUri(),
-                        'image_versions' => $sizes, 'accept_file_types' => $allowedExtensionsRegex), false);
-        return $uploadHandler;
+        return $this->getUploadHandlerFactory()->createUploadHandler(
+                array(
+                        'upload_dir' => $uploadDir, 
+                        'upload_url' => $webPath . '/' . $originals['folder'] . '/', 
+                        'script_url' => $this->request->getUri(),
+                        'image_versions' => $sizes, 
+                        'accept_file_types' => $allowedExtensionsRegex
+                        ), 
+                false
+                );
     }
-
+    
+    public function getUploadHandlerFactory() {
+        if (isset($this->uploadHandlerFactory)) {
+            return $this->uploadHandlerFactory;
+        } else {
+            return new UploadHandlerFactory();
+        }
+    }
+    
+    public function setUploadHandlerFactory($uploadHandlerFactory) {
+        $this->uploadHandlerFactory = $uploadHandlerFactory;
+    }
+    
     public function getFileBasePath()
     {
         return $this->fileBasePath;

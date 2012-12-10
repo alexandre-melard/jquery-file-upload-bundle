@@ -2,7 +2,7 @@
 
 namespace Mylen\JQueryFileUploadBundle\Services;
 
-interface IFileUploader
+interface IFileUploaderService
 {
     /**
      * Handles a file upload. Call this from an action, after validating the user's
@@ -28,5 +28,9 @@ interface IFileUploader
      * @return  IResponseContainer              Contains the header, body and/or the file to send
      */
     public function handleFileUpload($folder);
+
+    public function getFileBasePath();
+    
+    public function getWebBasePath();
     
 }

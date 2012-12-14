@@ -11,19 +11,15 @@ class FileUploader implements IFileUploader
     protected $fileBasePath;
     protected $webBasePath;
 
-    /** @var \Symfony\Component\HttpFoundation\Request */
-    protected $request;
-
     protected $allowedExtensions;
     protected $sizes;
     protected $originals;
     protected $uploadHandlerFactory;
 
-    public function __construct($fileBasePath = null, $webBasePath = null, $request = null, $allowedExtensions = null, $sizes = null, $originals = null)
+    public function __construct($fileBasePath = null, $webBasePath = null, $allowedExtensions = null, $sizes = null, $originals = null)
     {
         $this->fileBasePath = $fileBasePath;
         $this->webBasePath = $webBasePath;
-        $this->request = $request;
         $this->allowedExtensions = $allowedExtensions;
         $this->sizes = $sizes;
         $this->originals = $originals;
@@ -66,7 +62,6 @@ class FileUploader implements IFileUploader
                 array(
                         'upload_dir' => $uploadDir, 
                         'upload_url' => $webPath . '/' . $originals['folder'] . '/', 
-                        'script_url' => $this->request->getUri(),
                         'image_versions' => $sizes, 
                         'accept_file_types' => $allowedExtensionsRegex
                         ), 

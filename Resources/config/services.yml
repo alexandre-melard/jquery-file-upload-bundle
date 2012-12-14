@@ -8,4 +8,4 @@ services:
           - '%file_uploader.allowed_extensions%'
           - '%file_uploader.sizes%'
           - '%file_uploader.originals%'
-        scope: request
+        scope: container

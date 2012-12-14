@@ -87,3 +87,19 @@ execute "check if date.timezone is Europe/Paris in /etc/php5/cli/php.ini?" do
   command "sed -i 's/;date.timezone =.*/date.timezone = Europe\\/Paris/g' /etc/php5/cli/php.ini"
 end
 
+execute "check if xdebug is enabled in /etc/php5/apache2/php.ini?" do
+  user "root"
+  not_if "grep '^xdebug.default_enable=1' /etc/php5/apache2/php.ini"
+  command "echo '[xdebug]' >> /etc/php5/apache2/php.ini"
+  command "echo 'xdebug.default_enable=1' >> /etc/php5/apache2/php.ini"
+  command "echo 'xdebug.remote_handler=dbgp' >> /etc/php5/apache2/php.ini"
+  command "echo 'xdebug.remote_host=192.168.111.1' >> /etc/php5/apache2/php.ini"
+  command "echo 'xdebug.remote_port=9000' >> /etc/php5/apache2/php.ini"
+  command "echo 'xdebug.remote_autostart=0' >> /etc/php5/apache2/php.ini"
+end
+  
+
+
+
+
+
